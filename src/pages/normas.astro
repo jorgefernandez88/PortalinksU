@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const normas = [
+  {
+    titulo: "Respeto ante todo",
+    descripcion: "No se toleran insultos, discriminación o acoso de ningún tipo, tampoco amenazas hacia otras personas o grupos."
+  },
+  {
+    titulo: "Contenido apropiado",
+    descripcion: "Se prohibe compartir pornografía, gore o contenido sexual sugerente."
+  },
+  {
+    titulo: "No spam",
+    descripcion: "Se prohiben las ventas de trabajos de la Universidad, enlaces de grupos con spam, tutorías privadas, rifas, enlaces de Temu, Amazon, Shein y similares asi como publicidad comercial no solicitada a excepcion de la información de los emprendimientos que forman parte del Mercado a Distancia."
+  },
+  {
+    titulo: "Humor",
+    descripcion: "Memes y humor están permitidos."
+  },
+  {
+    titulo: "Sobre Asociaciones y Federacion de Estudiantes",
+    descripcion: "No se permite información de Asociaciones y Federacion de Estudiantes UNED debido a la falta de apoyo de estas entidades hacia las organizaciones y colectivos estudiantiles indepenientes."
+  },
+  {
+    titulo: "Reportar problemas",
+    descripcion: "Si encuentras contenido inapropiado o comportamiento incorrecto, repórtalo a los administradores del grupo etiquetandolos con el @."
+  }
+];
+---
+
+<Layout title="PortalinksU">
+ 
+  <div class="container">
+    <div class="card-container">
+      <h1>Normas de los grupos</h1>
+      <p>Se establecen las siguientes normas, la persona que infrinja alguna de ellas será eliminada del grupo, asi como de cualquier otro en el que se encuentre y no se le permitirá el ingreso a ningun otro.</p>
+    </div>
+
+    <div class="normas-list">
+      {normas.map((norma, index) => (
+        <div class="norma-card">
+          <div class="norma-number">{index + 1}</div>
+          <div class="norma-content">
+            <h3>{norma.titulo}</h3>
+            <p>{norma.descripcion}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card-container">
+      <h1>Sobre PortalinksU</h1>
+      <p>Si bien la UNED no recomienda el uso de grupos de WhatsApp, esta es una plataforma de mensagería legítima para que los estudiantes se comuniquen, interactúen y formen comunidad.</p>
+      <p>PortalinksU es un espacio, que a difenrencia de otras opciones, es de código abierto (su código fuente puede ser revisado por cualquier persona) y no utiliza rastreadores. Además, los grupos colocados aquí tienen normas para asegurar una buena convivencia.</p>
+    </div>
+
+</Layout>
+
+<style>
+  .normas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .norma-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .norma-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .norma-number {
+    background: var(--primary);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+  }
+
+  .norma-content h3 {
+    margin-bottom: 0.5rem;
+    color: var(--secondary);
+    font-size: 1.2rem;
+  }
+
+  .norma-content p {
+    color: var(--dark);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .norma-card {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .norma-number {
+      align-self: center;
+    }
+  }
+</style>

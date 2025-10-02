@@ -1,0 +1,119 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  group: CollectionEntry<'groups'>;
+}
+
+const { group } = Astro.props;
+
+---
+<article class="grupo-desplegable">
+  <button class="boton-desplegable">
+    <div class="grupo-header">
+      <h2>{group.data.nombre}</h2>
+      <span class="flecha">▼</span>
+    </div>
+  </button>
+
+  <div class="contenido-grupo">
+    {group.data.descripcion_corta && 
+      <div class="descripcion-container">
+        <p class="grupo-descripcion">{group.data.descripcion_corta}</p>
+      </div>
+    }
+    
+    <div class="lista-cursos">
+      <h3><i class="fas fa-book"></i> Grupos:</h3>
+      <ul>
+        {group.data.cursos.map((curso: {nombre: string; codigo: string; enlace: string;}) => (
+          <li class="curso-item">
+            <span class="course-name">{curso.nombre}</span>
+            <span class="course-code">{curso.codigo}</span>
+            <a href={curso.enlace} target="_blank" class="enlace-unirse">
+              <i class="fas fa-link"></i> Unirse
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</article>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const botones = document.querySelectorAll('.boton-desplegable');
+    
+    botones.forEach(boton => {
+      const contenidoGrupo = boton.nextElementSibling;
+      const flecha = boton.querySelector('.flecha');
+      
+      boton.addEventListener('click', () => {
+        boton.classList.toggle('active');
+        if (contenidoGrupo) {
+          contenidoGrupo.classList.toggle('visible');
+        }
+        if (flecha) {
+          flecha.classList.toggle('rotated');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Estilos específicos para el componente */
+  .grupo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .flecha {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+  }
+  
+  .flecha.rotated {
+    transform: rotate(180deg);
+  }
+  
+  .contenido-grupo {
+    display: none;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 0 0 16px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: none;
+    overflow: hidden;
+  }
+  
+  .contenido-grupo.visible {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .descripcion-container {
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+  }
+  
+  .grupo-descripcion {
+    font-size: 0.95rem;
+    color: var(--dark);
+    line-height: 1.5;
+    margin: 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

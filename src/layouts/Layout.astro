@@ -1,0 +1,84 @@
+---
+const { title = 'PortalinksU' } = Astro.props;
+const description = 'Portal de grupos de WhatsApp para estudiantes UNED organizados por carrera';
+const baseUrl = 'https://tudominio.github.io';
+const imageUrl = `${baseUrl}/og-image.jpg`;
+const siteUrl = baseUrl;
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    
+    <!-- Meta básicas -->
+    <meta name="description" content={description} />
+    <meta name="author" content="PortalinksU" />
+    
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:site_name" content="PortalinksU" />
+    <meta property="og:locale" content="es_ES" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:site" content="@PortalinksU" />
+    
+    <!-- Específicos para imagen -->
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="PortalinksU - Grupos de WhatsApp para estudiantes UNED" />
+
+    <!-- Favicon Moderno (SVG recomendado) -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+    <!-- Favicon alternativo para navegadores muy antiguos -->
+    <link rel="alternate icon" href="/favicon.ico" type="image/x-icon">
+    
+    <!-- Para Safari en iOS/macOS -->
+    <link rel="mask-icon" href="/favicon.svg" color="#6c63ff">
+    
+    <!-- Para Windows/Android -->
+    <meta name="msapplication-TileColor" content="#6c63ff">
+    <meta name="theme-color" content="#6c63ff">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="/src/styles/global.css" />    
+    <!-- CDN de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+        
+                <span>{title}</span>
+            </div>
+            <div class="nav-links">
+                <a href="/"><i class="fas fa-home"></i> Inicio</a>
+                <a href="/normas"><i class="fas fa-file-alt"></i> Normas</a>
+                <a href="https://jorgefernandez88.github.io/Nube-Unediana/index.html" target="_blank" rel="noopener noreferrer"><i class="fas fa-calculator"></i> Calculadora</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <slot />
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Hecho con <i class="fas fa-heart"></i> en Astro 5.13.2</p>
+        </div>
+    </footer>
+</body>
+</html>

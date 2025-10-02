@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import GrupoDesplegable from '../components/GrupoDesplegable.astro';
+import GrupoGeneral from '../components/GrupoGeneral.astro';
+import GrupoSedes from '../components/GrupoSedes.astro';
+import SearchBar from '../components/SearchBar.astro';
+
+const allGroups: CollectionEntry<'groups'>[] = await getCollection('groups');
+
+// Separar grupos por categoría
+const gruposAcademicos = allGroups.filter(group => 
+  !group.data.categoria || group.data.categoria === 'academico'
+);
+const gruposGenerales = allGroups.filter(group => 
+  group.data.categoria === 'general'
+);
+const gruposSedes = allGroups.filter(group => 
+  group.data.categoria === 'sedes'
+);
+---
+<Layout title="PortalinksU">
+    <div class="container">
+        <div class="card-container">
+            <p class="intro-text">
+                Este es un portal en el que se encuentran grupos de WhatsApp de asignaturas 
+                para estudiantes UNED organizados por carrera.
+            </p>
+            <a href="https://whatsapp.com/channel/0029VbAAlnJ4NVikkIX3gG0v" target="_blank" rel="noopener noreferrer" class="canal-button">
+                <i class="fab fa-whatsapp"></i>
+                Canal del portal para información y actualizaciones
+            </a>
+        </div>
+        
+        <SearchBar />
+
+        <!-- Grupos Generales -->
+        {gruposGenerales.length > 0 && (
+            <div class="groups-list">
+                {gruposGenerales.map((group) => (
+                    <GrupoGeneral group={group} />
+                ))}
+            </div>
+        )}
+
+        <!-- Grupos de Sedes -->
+        {gruposSedes.length > 0 && (
+            <div class="groups-list">
+                {gruposSedes.map((group) => (
+                    <GrupoSedes group={group} />
+                ))}
+            </div>
+        )}
+
+        <!-- Grupos Académicos -->
+        {gruposAcademicos.length > 0 && (
+            <div class="groups-list">
+                {gruposAcademicos.map((group) => (
+                    <GrupoDesplegable group={group} />
+                ))}
+            </div>
+        )}
+    </div>
+
+    <style>
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .canal-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: linear-gradient(135deg, #6c63ff, #8a85ff);
+        color: white;
+        text-decoration: none;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .canal-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+        background: linear-gradient(135deg, #8a85ff, #6c63ff);
+    }
+
+    .canal-button i {
+        font-size: 1.4rem;
+    }
+        
+
+        /* Ajustes para la card-container */
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card-container::before {
+            height: 4px;
+            background: linear-gradient(90deg, #6c63ff, #f72585, #4361ee);
+        }
+    </style>
+</Layout>

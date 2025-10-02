@@ -1,0 +1,603 @@
+:root {
+  --primary: #4361ee;
+  --secondary: #3a0ca3;
+  --accent: #f72585;
+  --light: rgba(255, 255, 255, 0.9);
+  --dark: #212529;
+  --success: #4cc9f0;
+  --warning: #fca311;
+  --danger: #e63946;
+  --gray: #adb5bd;
+  --blur: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+  color: var(--dark);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header y Navegación con Glassmorfismo */
+header {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--dark);
+  padding: 1rem 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 20px;
+  z-index: 100;
+  margin-bottom: 2rem;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--secondary);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  color: var(--dark);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Tarjeta de presentación con Glassmorfismo */
+.card-container {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin: 2rem 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0.7;
+}
+
+/* Buscador con Glassmorfismo */
+.search-container {
+  margin: 2rem 0;
+}
+
+.search-bar {
+  position: relative;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 1.2rem 1.5rem 1.2rem 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  color: var(--dark);
+}
+
+.search-bar input::placeholder {
+  color: rgba(33, 37, 41, 0.7);
+}
+
+.search-bar i {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--secondary);
+}
+
+.search-bar input:focus {
+  border-color: rgba(67, 97, 238, 0.5);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Estilo cuando no se encuentra ningún resultado */
+.search-bar.no-results input {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+}
+
+.no-results-message {
+  color: var(--danger);
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(230, 57, 70, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 12px;
+  border: 1px solid rgba(230, 57, 70, 0.2);
+  display: none;
+}
+
+/* Lista de grupos con Glassmorfismo */
+.groups-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+/* Estilos mejorados para grupos desplegables - Coherencia con normas */
+.grupo-desplegable {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin-bottom: 0.55rem;
+}
+
+/* Efecto lateral en hover - Movimiento horizontal */
+.grupo-desplegable:hover {
+  transform: translateX(7px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Botón desplegable mejorado */
+.boton-desplegable {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--secondary);
+  transition: all 0.3s ease;
+}
+
+.boton-desplegable:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.grupo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.grupo-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--secondary);
+}
+
+.flecha {
+  transition: transform 0.3s ease;
+  font-size: 0.9rem;
+  color: var(--primary);
+}
+
+.flecha.rotated {
+  transform: rotate(180deg);
+}
+
+/* Contenido del grupo - Coherencia con normas */
+.contenido-grupo {
+  display: none;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.contenido-grupo.visible {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+.descripcion-container {
+  padding: 1rem 0;
+}
+
+.grupo-descripcion {
+  font-size: 0.95rem;
+  color: var(--dark);
+  line-height: 1.5;
+  margin: 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Título de lista de cursos */
+.lista-cursos h3 {
+  margin: 1.5rem 0 1rem 0;
+  color: var(--secondary);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Elementos de curso mejorados */
+.curso-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.curso-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(12px);
+}
+
+.course-name {
+  text-align: left;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.course-code {
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  background: rgba(67, 97, 238, 0.1);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  min-width: 5rem;
+  color: var(--primary);
+}
+
+.enlace-unirse {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.enlace-unirse:hover {
+  color: white;
+  background: var(--primary);
+  transform: translateX(2px);
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+}
+
+/* Estilos para el resaltado de búsqueda que mantiene la estructura */
+.highlight {
+  background-color: rgba(255, 230, 0, 0.804);
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: bold;
+  display: inline;
+}
+
+/* Footer con Glassmorfismo */
+footer {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 4rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--dark);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-content .fa-heart {
+  color: var(--accent);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Estilos para la página de normas */
+.normas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.norma-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.norma-card:hover {
+  transform: translateX(3px);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.norma-number {
+  background: var(--primary);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+
+.norma-content h3 {
+  margin-bottom: 0.5rem;
+  color: var(--secondary);
+  font-size: 1.2rem;
+}
+
+.norma-content p {
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  :root {
+      --blur: 8px;
+  }
+  
+  body {
+      padding: 10px;
+  }
+  
+  .container {
+      padding: 0.5rem;
+  }
+  
+  .nav-container {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 0 1rem;
+  }
+  
+  .card-container {
+      padding: 1.5rem;
+  }
+  
+  .nav-links {
+      gap: 1rem;
+  }
+  
+  .nav-links a {
+      padding: 0.4rem 0.8rem;
+  }
+
+  /* Mejoras responsive para cursos */
+  .curso-item {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .course-name {
+    text-align: center;
+    order: 1;
+  }
+  
+  .course-code {
+    order: 2;
+    justify-self: center;
+  }
+  
+  .enlace-unirse {
+    order: 3;
+    justify-self: center;
+  }
+
+  /* Mejoras responsive para grupos desplegables */
+  .boton-desplegable {
+    padding: 1.2rem;
+  }
+  
+  .grupo-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .contenido-grupo {
+    padding: 0 1rem 1rem 1rem;
+  }
+  
+  .curso-item {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 0.75rem;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .course-name {
+    text-align: center;
+    order: 1;
+  }
+  
+  .course-code {
+    order: 2;
+    justify-self: center;
+  }
+  
+  .enlace-unirse {
+    order: 3;
+    justify-self: center;
+  }
+  
+  .lista-cursos h3 {
+    font-size: 1rem;
+    margin: 1rem 0;
+  }
+
+  /* Responsive para normas */
+  .norma-card {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .norma-number {
+    align-self: center;
+  }
+  
+  /* Reducir movimiento lateral en móviles para mejor experiencia táctil */
+  .grupo-desplegable:hover,
+  .boton-desplegable:hover,
+  .curso-item:hover,
+  .norma-card:hover {
+    transform: translateX(2px);
+  }
+}
+
+
+/* Estilos para la sección de grupos generales */
+.groups-list:has(.grupo-general) {
+    margin-bottom: 2rem;
+}
+
+.groups-list:has(.grupo-general) + .groups-list:has(.grupo-desplegable) {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+.enlace-unirse {
+    color: #6c63ff;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(108, 99, 255, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(108, 99, 255, 0.15);
+  }
+
+  .enlace-unirse:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg, #6c63ff, #f72585);  /* Gradiente morado-rosa */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.25);
+  }

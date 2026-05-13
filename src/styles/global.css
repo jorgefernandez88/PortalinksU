@@ -150,7 +150,11 @@ header {
   left: 1.2rem;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--secondary);
+  color: var(--primary);
+  font-size: 1.1rem;
+  z-index: 2;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  pointer-events: none;
 }
 
 .search-bar input:focus {

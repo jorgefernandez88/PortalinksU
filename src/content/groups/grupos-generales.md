@@ -33,7 +33,7 @@ enlaces:
     icono: "fas fa-user-graduate"
   - nombre: "Estudiantes UNED (General)"
     descripcion: "Para todos los estudiantes"
-    enlace: "https://chat.whatsapp.com/E6dLDAEF47W4zU9HHO6RIC"
+    enlace: "https://chat.whatsapp.com/LHnAjbpddwoIml3dcswUkp?mlu=4&s=cl&p=a"
     icono: "fas fa-users"
   - nombre: "Humanidades"
     descripcion: "Información y consultas sobre las Humanidades"

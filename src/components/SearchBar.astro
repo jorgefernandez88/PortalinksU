@@ -1,0 +1,216 @@
+<div class="search-container">
+  <div class="search-bar">
+    <i class="fas fa-search"></i>
+    <input 
+        type="text" 
+        placeholder="Busque el grupo por nombre o código..." 
+        id="search-input"
+    />
+  </div>
+  <p class="no-results-message" style="display: none;">
+    <i class="fas fa-exclamation-circle"></i> No se encontró el grupo.
+  </p>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input') as HTMLInputElement;
+    const searchBarDiv = document.querySelector('.search-bar') as HTMLElement;
+    const noResultsMessage = document.querySelector('.no-results-message') as HTMLElement;
+    
+    if (!searchInput || !searchBarDiv || !noResultsMessage) return;
+
+    // Función para normalizar texto (eliminar tildes)
+    function normalizeText(text: string): string {
+      return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    // Función para escapar caracteres especiales de la búsqueda
+    function escapeRegExp(string: string): string {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    // Función para limpiar el resaltado anterior manteniendo la estructura
+    function clearHighlight(element: HTMLElement | null): void {
+      if (element) {
+        element.innerHTML = element.innerHTML.replace(/<span class="highlight">([^<]*)<\/span>/g, '$1');
+      }
+    }
+
+    // Función para restaurar la estructura del curso si se dañó
+    function restoreCourseStructure(course: HTMLElement): void {
+      const courseName = course.querySelector('.course-name') as HTMLElement;
+      const courseCode = course.querySelector('.course-code') as HTMLElement;
+      const enlace = course.querySelector('.enlace-unirse') as HTMLAnchorElement;
+      
+      // Si falta algún elemento, reconstruir la estructura
+      if (!courseName || !courseCode || !enlace) {
+        const text = course.textContent || '';
+        const match = text.match(/(.+?)\s*-\s*(\d+)\s*Unirse/);
+        
+        if (match) {
+          const nombre = match[1].trim();
+          const codigo = match[2].trim();
+          const enlaceUrl = enlace?.getAttribute('href') || '#';
+          
+          course.innerHTML = `
+            <span class="course-name">${nombre}</span>
+            <span class="course-code">${codigo}</span>
+            <a href="${enlaceUrl}" target="_blank" class="enlace-unirse">
+              <i class="fas fa-link"></i> Unirse
+            </a>
+          `;
+        }
+      }
+    }
+
+    // Función para aplicar highlight considerando tildes
+    function applyHighlightWithTildes(element: HTMLElement | null, query: string, normalizedQuery: string): void {
+      if (!element) return;
+      
+      const originalText = element.textContent || '';
+      const normalizedText = normalizeText(originalText);
+      
+      if (normalizedText.includes(normalizedQuery)) {
+        // Encontrar la posición de la coincidencia en el texto normalizado
+        const matchIndex = normalizedText.indexOf(normalizedQuery);
+        const matchLength = query.length;
+        
+        // Encontrar la posición correspondiente en el texto original
+        let originalIndex = 0;
+        let normalizedIndex = 0;
+        
+        while (normalizedIndex < matchIndex && originalIndex < originalText.length) {
+          const char = originalText[originalIndex];
+          normalizedIndex += normalizeText(char).length;
+          originalIndex++;
+        }
+        
+        // Crear el texto con highlight
+        const before = originalText.substring(0, originalIndex);
+        let matched = originalText.substring(originalIndex, originalIndex + matchLength);
+        const after = originalText.substring(originalIndex + matchLength);
+        
+        element.innerHTML = `${before}<span class="highlight">${matched}</span>${after}`;
+      }
+    }
+
+    searchInput.addEventListener('input', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const query = target.value.trim();
+      const normalizedQuery = normalizeText(query);
+      const groupContainers = document.querySelectorAll('.grupo-desplegable') as NodeListOf<HTMLElement>;
+      let resultsFound = false;
+
+      // Limpiar todos los resaltados y restaurar estructura
+      groupContainers.forEach((group: HTMLElement) => {
+        // Mostrar todos los grupos inicialmente
+        group.style.display = 'block';
+        
+        const contenidoGrupo = group.querySelector('.contenido-grupo') as HTMLElement;
+        if (contenidoGrupo) {
+          contenidoGrupo.classList.remove('visible');
+        }
+        
+        const groupNameElement = group.querySelector('h2') as HTMLElement;
+        const courses = group.querySelectorAll('li.curso-item') as NodeListOf<HTMLElement>;
+        
+        if (groupNameElement) clearHighlight(groupNameElement);
+        courses.forEach((course: HTMLElement) => {
+          restoreCourseStructure(course);
+          const courseName = course.querySelector('.course-name') as HTMLElement;
+          const courseCode = course.querySelector('.course-code') as HTMLElement;
+          
+          if (courseName) clearHighlight(courseName);
+          if (courseCode) clearHighlight(courseCode);
+          
+          course.style.display = 'grid';
+        });
+      });
+
+      // Si la consulta está vacía, reiniciar
+      if (query.length === 0) {
+        searchBarDiv.classList.remove('no-results');
+        noResultsMessage.style.display = 'none';
+        
+        // Colapsar todos los grupos al limpiar la búsqueda
+        groupContainers.forEach((group: HTMLElement) => {
+          const contenidoGrupo = group.querySelector('.contenido-grupo') as HTMLElement;
+          if (contenidoGrupo) {
+            contenidoGrupo.classList.remove('visible');
+          }
+        });
+        
+        return;
+      }
+
+      groupContainers.forEach((group: HTMLElement) => {
+        const groupNameElement = group.querySelector('h2') as HTMLElement;
+        const courses = group.querySelectorAll('li.curso-item') as NodeListOf<HTMLElement>;
+        const contenidoGrupo = group.querySelector('.contenido-grupo') as HTMLElement;
+        
+        let groupHasMatch = false;
+        let courseHasMatch = false;
+
+        // Buscar en nombre del grupo (normalizando para comparación)
+        if (groupNameElement && normalizeText(groupNameElement.textContent || '').includes(normalizedQuery)) {
+          groupHasMatch = true;
+          resultsFound = true;
+          applyHighlightWithTildes(groupNameElement, query, normalizedQuery);
+        }
+
+        // Buscar en cursos
+        courses.forEach((course: HTMLElement) => {
+          const courseName = course.querySelector('.course-name') as HTMLElement;
+          const courseCode = course.querySelector('.course-code') as HTMLElement;
+          let courseMatch = false;
+
+          // Buscar en nombre del curso (normalizando para comparación)
+          if (courseName && normalizeText(courseName.textContent || '').includes(normalizedQuery)) {
+            courseMatch = true;
+            resultsFound = true;
+            courseHasMatch = true;
+            applyHighlightWithTildes(courseName, query, normalizedQuery);
+          }
+
+          // Buscar en código del curso
+          if (courseCode && normalizeText(courseCode.textContent || '').includes(normalizedQuery)) {
+            courseMatch = true;
+            resultsFound = true;
+            courseHasMatch = true;
+            applyHighlightWithTildes(courseCode, query, normalizedQuery);
+          }
+
+          course.style.display = courseMatch ? 'grid' : 'none';
+        });
+
+        // Controlar visibilidad
+        if (groupHasMatch || courseHasMatch) {
+          group.style.display = 'block';
+          // Expandir automáticamente el grupo si hay coincidencias
+          if (contenidoGrupo && (groupHasMatch || courseHasMatch)) {
+            contenidoGrupo.classList.add('visible');
+          }
+        } else {
+          group.style.display = 'none';
+        }
+      });
+
+      // Mostrar/ocultar mensaje de no resultados
+      if (resultsFound) {
+        searchBarDiv.classList.remove('no-results');
+        noResultsMessage.style.display = 'none';
+      } else {
+        searchBarDiv.classList.add('no-results');
+        noResultsMessage.style.display = 'block';
+        groupContainers.forEach((group: HTMLElement) => {
+          group.style.display = 'block';
+          const contenidoGrupo = group.querySelector('.contenido-grupo') as HTMLElement;
+          if (contenidoGrupo) {
+            contenidoGrupo.classList.remove('visible');
+          }
+        });
+      }
+    });
+  });
+</script>

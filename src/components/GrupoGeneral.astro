@@ -1,0 +1,292 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  group: CollectionEntry<'groups'>;
+}
+
+const { group } = Astro.props;
+---
+<article class="grupo-general dark-theme">
+  <button class="boton-general">
+    <div class="grupo-header">
+      <div class="grupo-info">
+        <div class="grupo-icono">
+          <i class="fas fa-link"></i>
+        </div>
+        <div>
+          <h2>{group.data.nombre}</h2>
+        </div>
+      </div>
+      <span class="flecha">▼</span>
+    </div>
+  </button>
+
+  <div class="contenido-general">
+    <div class="lista-enlaces">
+      <h3>Grupos para todos los estudiantes UNED</h3>
+      <ul>
+        {group.data.enlaces.map((enlace: {nombre: string; descripcion: string; enlace: string; icono: string;}) => (
+          <li class="enlace-item">
+            <div class="enlace-info">
+              <!-- CORRECCIÓN AQUÍ: quitar las comillas -->
+              <i class={enlace.icono}></i>
+              <div class="enlace-texto">
+                <span class="enlace-nombre">{enlace.nombre}</span>
+                <span class="enlace-descripcion">{enlace.descripcion}</span>
+              </div>
+            </div>
+            <a href={enlace.enlace} target="_blank" class="enlace-unirse">
+              <i class="fas fa-link"></i> Unirse
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</article>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const botones = document.querySelectorAll('.boton-general');
+    
+    botones.forEach(boton => {
+      const contenidoGeneral = boton.nextElementSibling;
+      const flecha = boton.querySelector('.flecha');
+      
+      boton.addEventListener('click', () => {
+        boton.classList.toggle('active');
+        if (contenidoGeneral) {
+          contenidoGeneral.classList.toggle('visible');
+        }
+        if (flecha) {
+          flecha.classList.toggle('rotated');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Estilos específicos para grupos generales - Tema Oscuro Neumórfico */
+  .grupo-general.dark-theme {
+    background: #2d2d2d;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 
+      8px 8px 16px rgba(0, 0, 0, 0.3),
+      -8px -8px 16px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .grupo-general.dark-theme:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+      12px 12px 24px rgba(0, 0, 0, 0.4),
+      -12px -12px 24px rgba(255, 255, 255, 0.08);
+    background: #333333;
+  }
+
+  .boton-general {
+    width: 100%;
+    text-align: left;
+    background: #2d2d2d;
+    border: none;
+    border-radius: 16px;
+    padding: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: all 0.3s ease;
+    margin-bottom: 0;
+  }
+
+  .grupo-general.dark-theme:hover .boton-general {
+    background: #333333;
+  }
+
+  .grupo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    color: #ffffff;
+  }
+
+  .grupo-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .grupo-icono {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #333333, #2a2a2a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+      5px 5px 10px rgba(0, 0, 0, 0.3),
+      -5px -5px 10px rgba(255, 255, 255, 0.05);
+    color: #8a85ff;
+    font-size: 1.2rem;
+  }
+
+  .grupo-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .flecha {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+    color: #8a85ff;
+    margin-left: 1rem;
+  }
+
+  .flecha.rotated {
+    transform: rotate(180deg);
+  }
+
+  .contenido-general {
+    display: none;
+    background: #333333;
+    border-radius: 0 0 16px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+
+  .contenido-general.visible {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .lista-enlaces {
+    padding: 1.5rem;
+  }
+
+  .lista-enlaces h3 {
+    margin-bottom: 1rem;
+    color: #ffffff;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .enlace-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .enlace-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+    border-color: rgba(138, 133, 255, 0.3);
+  }
+
+  .enlace-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .enlace-info i {
+    font-size: 1.2rem;
+    color: #8a85ff;
+    width: 24px;
+    text-align: center;
+  }
+
+  .enlace-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .enlace-nombre {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 1rem;
+  }
+
+  .enlace-descripcion {
+    font-size: 0.85rem;
+    color: #b0b0b0;
+    line-height: 1.4;
+  }
+
+  .enlace-unirse {
+    color: #8a85ff;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(138, 133, 255, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(138, 133, 255, 0.2);
+  }
+
+  .enlace-unirse:hover {
+    color: #ffffff;
+    background: rgba(138, 133, 255, 0.3);
+    transform: translateY(-1px);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .grupo-info {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    
+    .enlace-item {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    .enlace-info {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .enlace-texto {
+      align-items: center;
+    }
+
+    .enlace-unirse {
+      justify-content: center;
+    }
+    
+    .boton-general {
+      padding: 1.2rem;
+    }
+  }
+</style>

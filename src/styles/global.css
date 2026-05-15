@@ -19,7 +19,7 @@
 }
 
 body {
-  background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+  background: linear-gradient(135deg, #c29ffd 0%, #6ab7ff 100%);
   color: var(--dark);
   line-height: 1.6;
   min-height: 100vh;

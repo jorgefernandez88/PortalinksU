@@ -1,13 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+//Cambio de la forma de importar getCollection para astro 6
+import { getCollection } from 'astro:content';
+// Las colecciones con loader ahora usan CollectionEntry desde 'astro:content' pero 
+
 import GrupoDesplegable from '../components/GrupoDesplegable.astro';
 import GrupoGeneral from '../components/GrupoGeneral.astro';
 import GrupoSedes from '../components/GrupoSedes.astro';
 import SearchBar from '../components/SearchBar.astro';
 import '../styles/global.css';
 
-const allGroups: CollectionEntry<'groups'>[] = await getCollection('groups');
+const allGroups = await getCollection('groups');
 
 // Separar grupos por categoría
 const gruposAcademicos = allGroups.filter(group => 
